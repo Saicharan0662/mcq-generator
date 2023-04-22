@@ -39,6 +39,7 @@ ipython_config.py
 
 # Environments
 env/
+.env
 
 # Media and Static directories
 /media/
