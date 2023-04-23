@@ -2,6 +2,8 @@ import pymongo
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password, check_password
+import jwt
 from .serializers import UserSerializer
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
@@ -11,10 +13,14 @@ from .models import User
 from bson.json_util import dumps
 import json
 from decouple import config
+import datetime
 
 MONGO_URI = config("MONGO_URI", cast=str)
 DB_NAME = config("DB_NAME", cast=str)
 COL_NAME = config("COL_NAME", cast=str)
+JWT_ALGO = config("JWT_ALGO", cast=str)
+JWT_SECRET = config("JWT_SECRET", cast=str)
+
 client = pymongo.MongoClient(
     MONGO_URI)
 dbname = client[DB_NAME]
@@ -31,17 +37,18 @@ def index(request):
 @api_view(['POST'])
 def register(request):
     user_data = JSONParser().parse(request)
+    user_data['userpassword'] = make_password(user_data['userpassword'])
     user_serializer = UserSerializer(data=user_data)
-
     user = collection.find_one({"useremail": user_data['useremail']})
+
     if user:
-        return JsonResponse("Email already registered", status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse({"msg": "Email already registered"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
     if user_serializer.is_valid():
         user_serializer.save()
         collection.insert_one(user_data)
-        return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED, safe=False)
+        return JsonResponse({"msg": "User registered successfully"}, status=status.HTTP_201_CREATED, safe=False)
 
-    return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"err": user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
 
 @csrf_exempt
@@ -54,7 +61,19 @@ def login(request):
 
     if user:
         user = json.loads(dumps(dict(user)))
-        if user['userpassword'] == user_data['userpassword']:
-            return JsonResponse("Login successful", status=status.HTTP_200_OK, safe=False)
-        return JsonResponse("Incorrect password", status=status.HTTP_400_BAD_REQUEST, safe=False)
-    return JsonResponse("User not found", status=status.HTTP_404_NOT_FOUND, safe=False)
+        isMatch = check_password(
+            user_data['userpassword'], user['userpassword'])
+        if isMatch:
+            token = jwt.encode({
+                    "username": user['username'], 
+                    "useremail": user['useremail'],
+                    "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(hours=1)),
+                }, 
+                JWT_SECRET, algorithm=JWT_ALGO)
+            return JsonResponse({
+                "username": user['username'],
+                "useremail": user['useremail'],
+                "token": token.decode('utf-8'),
+            }, status=status.HTTP_200_OK, safe=False)
+        return JsonResponse({"msg": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"msg": "User not found"}, status=status.HTTP_404_NOT_FOUND, safe=False)
