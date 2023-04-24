@@ -42,13 +42,13 @@ def register(request):
     user = collection.find_one({"useremail": user_data['useremail']})
 
     if user:
-        return JsonResponse({"msg": "Email already registered"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse({"msg": "Email already registered", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
     if user_serializer.is_valid():
         user_serializer.save()
         collection.insert_one(user_data)
-        return JsonResponse({"msg": "User registered successfully"}, status=status.HTTP_201_CREATED, safe=False)
+        return JsonResponse({"msg": "User registered successfully", "success": True}, status=status.HTTP_201_CREATED, safe=False)
 
-    return JsonResponse({"err": user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"err": user_serializer.errors, "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
 
 @csrf_exempt
@@ -65,15 +65,17 @@ def login(request):
             user_data['userpassword'], user['userpassword'])
         if isMatch:
             token = jwt.encode({
-                    "username": user['username'], 
-                    "useremail": user['useremail'],
-                    "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(hours=1)),
-                }, 
-                JWT_SECRET, algorithm=JWT_ALGO)
-            return JsonResponse({
                 "username": user['username'],
                 "useremail": user['useremail'],
-                "token": token.decode('utf-8'),
+                "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(hours=1)),
+            },
+                JWT_SECRET, algorithm=JWT_ALGO)
+            return JsonResponse({
+                user: {
+                    "username": user['username'],
+                    "useremail": user['useremail'],
+                    "token": token.decode('utf-8')
+                }, "success": True
             }, status=status.HTTP_200_OK, safe=False)
-        return JsonResponse({"msg": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
-    return JsonResponse({"msg": "User not found"}, status=status.HTTP_404_NOT_FOUND, safe=False)
+        return JsonResponse({"msg": "Incorrect password", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"msg": "User not found", "success": False}, status=status.HTTP_404_NOT_FOUND, safe=False)
