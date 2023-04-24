@@ -71,11 +71,11 @@ def login(request):
             },
                 JWT_SECRET, algorithm=JWT_ALGO)
             return JsonResponse({
-                user: {
+                "user": {
                     "username": user['username'],
                     "useremail": user['useremail'],
                     "token": token.decode('utf-8')
-                }, "success": True
+                }, "msg": "Login successfull","success": True
             }, status=status.HTTP_200_OK, safe=False)
         return JsonResponse({"msg": "Incorrect password", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
     return JsonResponse({"msg": "User not found", "success": False}, status=status.HTTP_404_NOT_FOUND, safe=False)
