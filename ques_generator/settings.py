@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'authapp',
+    'ques_maker_app'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
