@@ -60,7 +60,7 @@ const Register = () => {
         <>
             <Navbar
                 text='Login'
-                path='/login'
+                clickHandler={() => navigate('/login')}
             />
             <Form
                 submitAction={register}

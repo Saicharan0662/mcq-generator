@@ -57,7 +57,7 @@ const Login = () => {
         <>
             <Navbar
                 text='Register'
-                path='/register'
+                clickHandler={() => navigate('/register')}
             />
             <Form submitAction={login}>
                 <h1 className='text-lg font-bold'>Login</h1>
