@@ -17,14 +17,14 @@ import datetime
 
 MONGO_URI = config("MONGO_URI", cast=str)
 DB_NAME = config("DB_NAME", cast=str)
-COL_NAME = config("COL_NAME", cast=str)
+COL_NAME_USER = config("COL_NAME_USER", cast=str)
 JWT_ALGO = config("JWT_ALGO", cast=str)
 JWT_SECRET = config("JWT_SECRET", cast=str)
 
 client = pymongo.MongoClient(
     MONGO_URI)
 dbname = client[DB_NAME]
-collection = dbname[COL_NAME]
+collection = dbname[COL_NAME_USER]
 
 # Create your views here.
 
