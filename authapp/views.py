@@ -65,6 +65,7 @@ def login(request):
             user_data['userpassword'], user['userpassword'])
         if isMatch:
             token = jwt.encode({
+                "userID": user['_id']['$oid'],
                 "username": user['username'],
                 "useremail": user['useremail'],
                 "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(hours=1)),
@@ -75,7 +76,7 @@ def login(request):
                     "username": user['username'],
                     "useremail": user['useremail'],
                     "token": token.decode('utf-8')
-                }, "msg": "Login successfull","success": True
+                }, "msg": "Login successfull", "success": True
             }, status=status.HTTP_200_OK, safe=False)
         return JsonResponse({"msg": "Incorrect password", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
     return JsonResponse({"msg": "User not found", "success": False}, status=status.HTTP_404_NOT_FOUND, safe=False)
