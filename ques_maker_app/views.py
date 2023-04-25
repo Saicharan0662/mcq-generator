@@ -132,7 +132,7 @@ def get_questions(request):
     return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
 
-@api_view(['DELETE'])
+@api_view(['DELETE', 'GET'])
 def delete_question(request, qId):
     # Authorization
     token = request.META.get('HTTP_AUTHORIZATION')
@@ -152,10 +152,23 @@ def delete_question(request, qId):
     if expires_in < datetime.datetime.utcnow():
         return JsonResponse({"msg": "Token expired", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
-    try:
-        questions = collection.delete_one({"_id": ObjectId(qId)})
-        return JsonResponse({"msg": "Questions deleted successfully", "success": True}, status=status.HTTP_200_OK, safe=False)
-    except Exception as e:
-        return JsonResponse({"msg": "Question not found", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    if request.method == 'DELETE':
+        try:
+            questions = collection.delete_one({"_id": ObjectId(qId)})
+            return JsonResponse({"msg": "Questions deleted successfully", "success": True}, status=status.HTTP_200_OK, safe=False)
+        except Exception as e:
+            return JsonResponse({"msg": "Question not found", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
-    return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+    if request.method == 'GET':
+        try:
+            questions = collection.find_one({"_id": ObjectId(qId)})
+            questions['_id'] = str(questions['_id'])
+            questions['questions'] = json.loads(questions['questions'])
+            questions['tags'] = json.loads(questions['tags'])
+            return JsonResponse({"data": questions, "success": True}, status=status.HTTP_200_OK, safe=False)
+        except Exception as e:
+            return JsonResponse({"msg": "Question not found", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+        return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
