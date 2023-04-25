@@ -172,7 +172,7 @@ class NER():
             sent_no = questions[i][0]
             cat = questions[i][1]
             ques = questions[i][2]
-            ans = self.getAnswerfield(options[i], answers[i])
+            ans = answers[i]
 
             if ans == -1:
                 continue
