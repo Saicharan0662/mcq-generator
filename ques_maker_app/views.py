@@ -156,7 +156,6 @@ def delete_question(request, qId):
         questions = collection.delete_one({"_id": ObjectId(qId)})
         return JsonResponse({"msg": "Questions deleted successfully", "success": True}, status=status.HTTP_200_OK, safe=False)
     except Exception as e:
-        print(e)
-        return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse({"msg": "Question not found", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
     return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
