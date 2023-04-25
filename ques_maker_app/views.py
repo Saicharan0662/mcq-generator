@@ -133,7 +133,7 @@ def get_questions(request):
 
 
 @api_view(['DELETE', 'GET'])
-def delete_question(request, qId):
+def delete_getsingle_question(request, qId):
     # Authorization
     token = request.META.get('HTTP_AUTHORIZATION')
     if (token == "null") or (not token.startswith('Bearer ')):
