@@ -112,6 +112,7 @@ const Dashboard = () => {
                                 title={question.title}
                                 description={question.description}
                                 tags={question.tags}
+                                _id={question._id['$oid']}
                                 count={question.questions.length}
                             />
                         )
