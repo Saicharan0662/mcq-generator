@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import QuestionCard from '../components/QuestionCard'
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material'
+import downloadIcon from '../assets/download.png'
+import { Button } from '@mui/material';
 
 const QuestionView = () => {
     const { id } = useParams()
@@ -69,7 +70,10 @@ const QuestionView = () => {
                         onChange={(e) => setNumberQToDownload(e.target.value)}
                         max={question?.questions.length}
                         InputProps={{
-                            endAdornment: <Button variant="contained" color='success' onClick={downloadPDF}>D</Button>
+                            endAdornment:
+                                <Button onClick={downloadPDF}>
+                                    <img src={downloadIcon} alt="d" className='h-8 cursor-pointer' />
+                                </Button>
                         }}
                     />
                 </div>

@@ -102,7 +102,7 @@ const Dashboard = () => {
     if (!user) return <Navigate to='/' />
 
     return (
-        <div>
+        <div className='mb-6'>
             <Navbar
                 text='Logout'
                 clickHandler={() => {
@@ -133,6 +133,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            <hr className='my-6' />
             <div className='mt-4 px-8'>
                 <h1 className='text-md font-bold'>Your Questions {questions && `(${questions.length})`}</h1>
                 <div className='flex justify-around items-center flex-wrap'>

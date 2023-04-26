@@ -4,11 +4,18 @@
   box-sizing: border-box;
 }
 
-.exam-card-width {
+.landing-bg {
+  background-image: url('../src/assets/bg.svg');
+  background-repeat: no-repeat;
+  /* background-position: center center; */
+  background-size: cover;
+}
+
+.card-width {
   width: 400px;
 }
 
-.student-exam-card-btn {
+.card-btn {
   padding: 3px 6px;
   font-size: 12px;
   background-color: rgba(50, 190, 218, 0.808);
@@ -22,13 +29,13 @@
 }
 
 @media screen and (max-width: 1072px) {
-  .exam-card-width {
+  .card-width {
     width: 500px;
   }
 }
 
 @media screen and (max-width: 706px) {
-  .exam-card-width {
+  .card-width {
     width: 80%;
   }
 }
