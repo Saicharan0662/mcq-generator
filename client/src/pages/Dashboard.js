@@ -1,12 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Navigate } from 'react-router'
 import { useNavigate } from 'react-router-dom'
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Navbar from '../components/Navbar'
 
 const Dashboard = () => {
 
     const user = JSON.parse(localStorage.getItem('user'))
     const navigate = useNavigate()
+    const [input, setInput] = useState({
+        title: '',
+        description: '',
+        link: '',
+        tags: ''
+    })
+
+    const createQuestion = e => {
+        e.preventDefault()
+        console.log(input)
+        fetch(`${process.env.REACT_APP_HOST}ques/save_questions/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({
+                title: input.title,
+                description: input.description,
+                link: input.link,
+                tags: input.tags
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) alert("Question created successfully")
+                if (data.msg) alert(data.msg)
+
+                setInput({
+                    title: '',
+                    description: '',
+                    link: '',
+                    tags: ''
+                })
+            })
+            .catch(err => console.log(err))
+    }
+
     if (!user) return <Navigate to='/' />
 
     return (
@@ -18,7 +58,28 @@ const Dashboard = () => {
                     navigate('/')
                 }}
             />
-            <h1>{user && user.username}</h1>
+            <div className='px-8 py-4'>
+                <h1 className='text-lg font-normal'>Welcome back {user && user.username}!</h1>
+            </div>
+            <div>
+                <div className='flex justify-center items-center'>
+                    <div className='lg:w-1/4 md:w-1/2 bg-blue-100 p-8 rounded-md'>
+                        <h1 className='font-bold text-md'>Create Questions</h1>
+                        <form className='flex flex-col justify-center gap-y-6 px-6 py-4' onSubmit={createQuestion}>
+                            <TextField id="standard-basic0" label="Title" variant="standard" type='text' required
+                                value={input.title} onChange={e => setInput({ ...input, title: e.target.value })} />
+                            <TextField id="standard-basic1" label="Description" variant="standard" type='text' required
+                                value={input.description} onChange={e => setInput({ ...input, description: e.target.value })} />
+                            <TextField id="standard-basic1" label="Tags (separate by ',')" variant="standard" type='text' required
+                                value={input.tags} onChange={e => setInput({ ...input, tags: e.target.value })} />
+                            <TextField id="standard-basic1" label="Link" variant="standard" type='link' required
+                                value={input.link} onChange={e => setInput({ ...input, link: e.target.value })} />
+
+                            <Button variant="contained" color='success' type='submit'>Create</Button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
