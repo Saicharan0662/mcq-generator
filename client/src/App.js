@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import QuestionView from './pages/QuestionView';
 import EditQuestion from './pages/EditQuestion';
+import Download from './pages/Download';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/questionView/:id' element={<QuestionView />} />
           <Route path='/edit/:id' element={<EditQuestion />} />
+          <Route path='/download' element={<Download />} />
         </Routes>
       </Router>
     </div>
