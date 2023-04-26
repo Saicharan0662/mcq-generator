@@ -48,7 +48,7 @@ The following are the steps used to build this project.
 
 ## Demo Video
 Here is a demo video for the project.
-[![Demo](./media/demo_video.mp4)](./media/demo_video.mp4)
+<video src='./media/demo_video.mp4' width=180/>
 
 ## Author
 - Linkedin - [Sai Charan](https://www.linkedin.com/in/saicharan0662/)
