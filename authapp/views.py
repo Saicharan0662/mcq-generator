@@ -20,6 +20,7 @@ DB_NAME = config("DB_NAME", cast=str)
 COL_NAME_USER = config("COL_NAME_USER", cast=str)
 JWT_ALGO = config("JWT_ALGO", cast=str)
 JWT_SECRET = config("JWT_SECRET", cast=str)
+JWT_EXP = config("JWT_EXP", cast=int)
 
 client = pymongo.MongoClient(
     MONGO_URI)
@@ -68,7 +69,7 @@ def login(request):
                 "userID": user['_id']['$oid'],
                 "username": user['username'],
                 "useremail": user['useremail'],
-                "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(hours=1)),
+                "expiresIn": dumps(datetime.datetime.utcnow() + datetime.timedelta(days=JWT_EXP)),
             },
                 JWT_SECRET, algorithm=JWT_ALGO)
             return JsonResponse({
