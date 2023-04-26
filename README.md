@@ -4,6 +4,7 @@ This is a question generator that can be used for the generation of <em><strong>
 
 ## Introduction
 Multiple Choice Questions (MCQ) are frequently used to assess knowledge and comprehension of a given subject area in a variety of educational and professional assessments. Manually creating MCQs can be difficult and time-consuming. Therefore, creating a programme that creates MCQs automatically could be very useful for educators, trainers, and teachers. The design and implementation of an application that creates multiple-choice questions (MCQs) based on a specified topic will be covered in this paper. </br>
+React and the Django REST framework work well together to create cutting-edge online apps. React enables a dynamic frontend user experience, while Django offers a safe backend API for data and authentication. A smooth user experience and a flexible development environment are provided by these technologies. The component-based architecture of React and the ORM provided by Django make it possible to construct scalable and effective web apps.
 
 ### Technologies Used
 These are the following key technology used for building this project. The short description also given for every tech used.
