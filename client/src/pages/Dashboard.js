@@ -50,6 +50,21 @@ const Dashboard = () => {
             .catch(err => console.log(err))
     }
 
+    const deleteQuestion = (qId) => {
+        fetch(`${process.env.REACT_APP_HOST}ques/delete_getsingle_question/${qId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.msg) alert(data.msg)
+
+                getQuestions()
+            })
+    }
+
     const getQuestions = e => {
         fetch(`${process.env.REACT_APP_HOST}ques/get_questions/`, {
             method: 'GET',
@@ -114,6 +129,7 @@ const Dashboard = () => {
                                 tags={question.tags}
                                 _id={question._id['$oid']}
                                 count={question.questions.length}
+                                deleteQuestion={deleteQuestion}
                             />
                         )
                     })}
