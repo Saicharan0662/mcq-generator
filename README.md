@@ -13,6 +13,14 @@ These are the following key technology used for building this project. The short
 - <strong>Material UI</strong>: Material UI is an open-source React component library that adheres to Google's Material Design principles. Material Design is a design language created by Google to provide a consistent and modern look and feel across all Google products and services. It is widely used in industry level applications.
 - <strong>Tailwind CSS</strong>: Tailwind CSS is a popular open-source utility-first CSS framework. With the help of the robust and adaptable Tailwind CSS framework, developers can create bespoke designs quickly and effectively. Because of its distinctive stylistic methodology, the utility classes it offers, and the ease with which complicated designs may be created thanks to its great level of customization.
 
+### Features
+These are the following key features of the project.
+- User authentication and authorization.
+- MCQ generation from the provided link. This will save a lot of time for the teachers and trainers.
+- The question can be downloaded in the form of a PDF file. The number of questions can be specified and the questions will be selected randomly.
+- The user can create, read, update, and delete the questions.
+
+
 ## Implementation
 This section described the different key libraries used in the project and implementation process. I have used the best software practices for the development of different modules of the project. </br>
 
@@ -40,10 +48,7 @@ The following are the steps used to build this project.
 
 ## Demo Video
 Here is a demo video for the project.
-
--Video
-
-
+[![Demo](./media/demo_video.mp4)](./media/demo_video.mp4)
 
 ## Author
 - Linkedin - [Sai Charan](https://www.linkedin.com/in/saicharan0662/)
