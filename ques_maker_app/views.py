@@ -172,3 +172,48 @@ def delete_getsingle_question(request, qId):
             return JsonResponse({"msg": "Question not found", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
         return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+
+@api_view(['PATCH'])
+def update_question(request):
+    # Authorization
+    token = request.META.get('HTTP_AUTHORIZATION')
+    if (token == "null") or (not token.startswith('Bearer ')):
+        return JsonResponse({"msg": "Please provide a valid token", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+    token = token.split(' ')[1]
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=JWT_ALGO)
+        userID = payload['userID']
+        expires_in = json.loads(payload['expiresIn'])
+        expires_in = datetime.datetime.strptime(
+            expires_in['$date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+    except:
+        return JsonResponse({"msg": "Please provide a valid token", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+    if expires_in < datetime.datetime.utcnow():
+        return JsonResponse({"msg": "Token expired", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+    try:
+        data = JSONParser().parse(request)
+        qId = data['questionID']
+        title = data['title']
+        description = data['description']
+        tags = data['tags'].split(',')
+        for i in range(len(tags)):
+            tags[i] = tags[i].strip()
+
+        questions = collection.find_one({"_id": ObjectId(qId)})
+        collection.update_one({"_id": ObjectId(qId)}, {"$set": {
+            "title": title,
+            "description": description,
+            "tags": json.dumps(tags),
+            "questions": questions['questions'],
+            "createdBy": questions['createdBy'],
+        }})
+        return JsonResponse({"msg": "Question updated successfully", "success": True}, status=status.HTTP_200_OK, safe=False)
+    except Exception as e:
+        # print(e)
+        return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+    return JsonResponse({"msg": "Something went wrong", "success": False}, status=status.HTTP_400_BAD_REQUEST, safe=False)
