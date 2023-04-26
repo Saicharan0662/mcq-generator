@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import QuestionView from './pages/QuestionView';
+import EditQuestion from './pages/EditQuestion';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/questionView/:id' element={<QuestionView />} />
+          <Route path='/edit/:id' element={<EditQuestion />} />
         </Routes>
       </Router>
     </div>

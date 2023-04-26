@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import deleteIcon from '../assets/deleteIcon.png'
 import edit from '../assets/edit.png'
 
 const Card = ({ title, description, tags, count, _id, deleteQuestion }) => {
+    const navigate = useNavigate()
+
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width mx-2 my-3' style={{ background: '#f0f8ff' }}>
             <h1 className='text-lg font-semibold truncate ' style={{ width: '85%' }}>{title.toUpperCase()}</h1>
@@ -19,7 +21,7 @@ const Card = ({ title, description, tags, count, _id, deleteQuestion }) => {
             </div>
             <div className=''>
                 <img src={deleteIcon} alt="d" className='h-5 absolute top-3 right-12 mr-2 cursor-pointer' onClick={() => deleteQuestion(_id)} />
-                <img src={edit} alt="d" className='h-5 absolute top-3 right-16 mr-4 cursor-pointer' />
+                <img src={edit} alt="d" className='h-5 absolute top-3 right-16 mr-4 cursor-pointer' onClick={() => navigate(`/edit/${_id}`)} />
                 <Link className='student-exam-card-btn py-2' to={`/questionview/${_id}`}> View</Link>
             </div>
             <span className='rounded-md px-2 py-1 bg-green-100 text-green-500 text-xs absolute bottom-3 right-2 border-2 border-green-300'>
