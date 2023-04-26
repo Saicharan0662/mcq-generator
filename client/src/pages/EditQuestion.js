@@ -48,6 +48,7 @@ const EditQuestion = () => {
             .then(res => res.json())
             .then(data => {
                 const ques = data
+                alert(data.msg)
                 setQuestion({
                     title: ques.data.title,
                     description: ques.data.description,
@@ -65,18 +66,18 @@ const EditQuestion = () => {
                 clickHandler={() => navigate('/dashboard')}
             />
             <div>
-                <Form>
+                <Form
+                    submitAction={editQuestion}
+                >
                     <h1 className='text-lg font-bold'>Edit question</h1>
-                    <form className='flex flex-col justify-center gap-y-6 px-6 py-4' onSubmit={editQuestion}>
-                        <TextField id="standard-basic0" label="Title" variant="standard" required
-                            value={question.title} onChange={e => setQuestion({ ...question, title: e.target.value })} />
-                        <TextField id="standard-basic1" label="Description" variant="standard" type='text' required
-                            value={question.description} onChange={e => setQuestion({ ...question, description: e.target.value })} />
-                        <TextField id="standard-basic2" label="Tags" variant="standard" type='text' required
-                            value={question.tags} onChange={e => setQuestion({ ...question, tags: e.target.value })} />
+                    <TextField id="standard-basic0" label="Title" variant="standard" required
+                        value={question.title} onChange={e => setQuestion({ ...question, title: e.target.value })} />
+                    <TextField id="standard-basic1" label="Description" variant="standard" type='text' required
+                        value={question.description} onChange={e => setQuestion({ ...question, description: e.target.value })} />
+                    <TextField id="standard-basic2" label="Tags" variant="standard" type='text' required
+                        value={question.tags} onChange={e => setQuestion({ ...question, tags: e.target.value })} />
 
-                        <Button variant="contained" color='success' type='submit'>Submit</Button>
-                    </form>
+                    <Button variant="contained" color='success' type='submit'>Submit</Button>
                 </Form>
             </div>
         </div>

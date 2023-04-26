@@ -17,7 +17,7 @@ const QuestionView = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 setQuestion(data.data)
 
             })
@@ -43,7 +43,7 @@ const QuestionView = () => {
                         </span>
                     )
                 })}
-                <h2>Total Questions: {question.questions.length}</h2>
+                <h2>Total Questions: {question?.questions.length}</h2>
                 <div className='mt-4 md:mx-4'>
                     {question && question.questions.map((question, index) => {
                         return (

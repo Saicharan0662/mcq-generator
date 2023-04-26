@@ -19,7 +19,6 @@ const Dashboard = () => {
     const [questions, setQuestions] = useState(null)
     const createQuestion = e => {
         e.preventDefault()
-        console.log(input)
         fetch(`${process.env.REACT_APP_HOST}ques/save_questions/`, {
             method: 'POST',
             headers: {
@@ -34,7 +33,7 @@ const Dashboard = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if (data.success) alert("Question created successfully")
                 if (data.msg) alert(data.msg)
 
@@ -118,7 +117,6 @@ const Dashboard = () => {
             </div>
             <div className='mt-4 px-8'>
                 <h1 className='text-md font-bold'>Your Questions {questions && `(${questions.length})`}</h1>
-                {console.log(questions)}
                 <div className='flex justify-around items-center flex-wrap'>
                     {questions && questions.map((question, index) => {
                         return (

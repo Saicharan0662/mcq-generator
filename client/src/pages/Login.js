@@ -25,7 +25,7 @@ const Login = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 alert(data.msg)
                 setInput({
                     username: '',
@@ -61,13 +61,11 @@ const Login = () => {
             />
             <Form submitAction={login}>
                 <h1 className='text-lg font-bold'>Login</h1>
-                <form className='flex flex-col justify-center gap-y-6 px-6 py-4'>
-                    <TextField id="standard-basic0" label="Email" variant="standard" type='email' required
-                        value={input.useremail} onChange={e => setInput({ ...input, useremail: e.target.value })} />
-                    <TextField id="standard-basic1" label="password" variant="standard" type='password' required
-                        value={input.userpassword} onChange={e => setInput({ ...input, userpassword: e.target.value })} />
-                    <Button variant="contained" color='success' type='submit'>Login</Button>
-                </form>
+                <TextField id="standard-basic0" label="Email" variant="standard" type='email' required
+                    value={input.useremail} onChange={e => setInput({ ...input, useremail: e.target.value })} />
+                <TextField id="standard-basic1" label="password" variant="standard" type='password' required
+                    value={input.userpassword} onChange={e => setInput({ ...input, userpassword: e.target.value })} />
+                <Button variant="contained" color='success' type='submit'>Login</Button>
             </Form>
         </>
     )
