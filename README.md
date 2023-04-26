@@ -48,7 +48,8 @@ The following are the steps used to build this project.
 
 ## Demo Video
 Here is a demo video for the project.
-<video src='./media/demo_video.mp4' width=180/>
+<iframe src="https://drive.google.com/file/d/1HYria7GHgGpyneKrbVeCTwf8aXs2c6me/view?usp=share_link" width="640" height="480"></iframe>
+
 
 ## Author
 - Linkedin - [Sai Charan](https://www.linkedin.com/in/saicharan0662/)
