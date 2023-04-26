@@ -15,9 +15,11 @@ const EditQuestion = () => {
         description: '',
         tags: '',
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     const editQuestion = (e) => {
         e.preventDefault()
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}ques/update_question/`, {
             method: 'PATCH',
             headers: {
@@ -32,10 +34,14 @@ const EditQuestion = () => {
         })
             .then(res => res.json())
             .then(data => {
+                setIsLoading(false)
                 alert(data.msg)
                 navigate('/dashboard')
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setIsLoading(false)
+                console.log(err)
+            })
     }
 
     useEffect(() => {
@@ -48,7 +54,7 @@ const EditQuestion = () => {
             .then(res => res.json())
             .then(data => {
                 const ques = data
-                alert(data.msg)
+                if (!data.success) alert(data.msg)
                 setQuestion({
                     title: ques.data.title,
                     description: ques.data.description,

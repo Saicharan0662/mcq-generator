@@ -13,16 +13,17 @@ const Register = () => {
         userpassword: '',
         userconfirmpassword: ''
     })
+    const [isLoading, setisLoading] = useState(false)
     const navigate = useNavigate();
 
     const register = (e) => {
         e.preventDefault();
-        // console.log(input)
 
         if (input.userpassword !== input.userconfirmpassword) {
             alert("Password do not match")
             return;
         }
+        setisLoading(true)
 
         fetch(`${process.env.REACT_APP_HOST}auth/register/`, {
             method: 'POST',
@@ -34,7 +35,7 @@ const Register = () => {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data)
+                setisLoading(false)
                 alert(data.msg)
                 setInput({
                     username: '',
@@ -47,6 +48,7 @@ const Register = () => {
             })
             .catch(err => {
                 console.log(err)
+                setisLoading(false)
                 setInput({
                     username: '',
                     useremail: '',
@@ -61,6 +63,7 @@ const Register = () => {
             <Navbar
                 text='Login'
                 clickHandler={() => navigate('/login')}
+                isLoading={isLoading}
             />
             <Form
                 submitAction={register}

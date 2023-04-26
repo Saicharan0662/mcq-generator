@@ -17,8 +17,11 @@ const Dashboard = () => {
         tags: ''
     })
     const [questions, setQuestions] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+
     const createQuestion = e => {
         e.preventDefault()
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}ques/save_questions/`, {
             method: 'POST',
             headers: {
@@ -33,7 +36,7 @@ const Dashboard = () => {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data)
+                setIsLoading(false)
                 if (data.success) alert("Question created successfully")
                 if (data.msg) alert(data.msg)
 
@@ -46,10 +49,14 @@ const Dashboard = () => {
 
                 getQuestions()
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setIsLoading(false)
+                console.log(err)
+            })
     }
 
     const deleteQuestion = (qId) => {
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}ques/delete_getsingle_question/${qId}`, {
             method: 'DELETE',
             headers: {
@@ -58,13 +65,19 @@ const Dashboard = () => {
         })
             .then(res => res.json())
             .then(data => {
+                setIsLoading(false)
                 if (data.msg) alert(data.msg)
 
                 getQuestions()
             })
+            .catch(err => {
+                setIsLoading(false)
+                console.log(err)
+            })
     }
 
     const getQuestions = e => {
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}ques/get_questions/`, {
             method: 'GET',
             headers: {
@@ -73,9 +86,13 @@ const Dashboard = () => {
         })
             .then(res => res.json())
             .then(data => {
+                setIsLoading(false)
                 if (data.success) setQuestions(data.data)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setIsLoading(false)
+                console.log(err)
+            })
     }
 
     useEffect(() => {
@@ -92,6 +109,7 @@ const Dashboard = () => {
                     localStorage.removeItem('user')
                     navigate('/')
                 }}
+                isLoading={isLoading}
             />
             <div className='px-8 py-4'>
                 <h1 className='text-lg font-normal'>Welcome back {user && user.username}!</h1>

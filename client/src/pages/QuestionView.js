@@ -7,8 +7,10 @@ const QuestionView = () => {
     const navigate = useNavigate()
     const user = JSON.parse(localStorage.getItem('user'))
     const [question, setQuestion] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}ques/delete_getsingle_question/${id}`, {
             method: 'GET',
             headers: {
@@ -17,12 +19,13 @@ const QuestionView = () => {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data)
+                setIsLoading(false)
                 setQuestion(data.data)
 
             })
             .catch(err => {
                 console.log(err)
+                setIsLoading(false)
             })
     }, [])
 
@@ -31,6 +34,7 @@ const QuestionView = () => {
             <Navbar
                 text='Back'
                 clickHandler={() => navigate('/dashboard')}
+                isLoading={isLoading}
             />
             <div className='px-12 py-4'>
                 <h2>Title: {question?.title}</h2>

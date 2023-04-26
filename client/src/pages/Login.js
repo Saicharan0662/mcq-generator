@@ -11,11 +11,12 @@ const Login = () => {
         useremail: '',
         userpassword: '',
     })
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
     const login = (e) => {
         e.preventDefault();
-        // console.log(input)
 
+        setIsLoading(true)
         fetch(`${process.env.REACT_APP_HOST}auth/login/`, {
             method: 'POST',
             body: JSON.stringify({
@@ -39,11 +40,12 @@ const Login = () => {
                     useremail: data.user.useremail,
                     token: data.user.token
                 }))
-
+                setIsLoading(false)
                 if (data.success) navigate('/dashboard')
             })
             .catch(err => {
                 console.log(err)
+                setIsLoading(false)
                 setInput({
                     username: '',
                     useremail: '',
@@ -58,6 +60,7 @@ const Login = () => {
             <Navbar
                 text='Register'
                 clickHandler={() => navigate('/register')}
+                isLoading={isLoading}
             />
             <Form submitAction={login}>
                 <h1 className='text-lg font-bold'>Login</h1>
