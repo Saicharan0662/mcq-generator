@@ -1,6 +1,6 @@
 # Question Generator
 
-This is a question generator that can be used for the generation of <em><strong>"Multiple Choice Questions"</strong></em> with the provided link of any webpage" In the following sections this report describes the brief intro about the web application and implementation.
+This is a question generator that can be used for the generation of <em><strong>"Multiple Choice Questions"</strong></em> with the provided link of any webpage". In the following sections this report describes the brief intro about the web application and implementation.
 
 ## Introduction
 Multiple Choice Questions (MCQ) are frequently used to assess knowledge and comprehension of a given subject area in a variety of educational and professional assessments. Manually creating MCQs can be difficult and time-consuming. Therefore, creating a programme that creates MCQs automatically could be very useful for educators, trainers, and teachers. The design and implementation of an application that creates multiple-choice questions (MCQs) based on a specified topic will be covered in this paper. </br>
