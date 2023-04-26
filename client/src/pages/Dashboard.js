@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Navigate } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Navbar from '../components/Navbar'
+import Card from '../components/Card';
 
 const Dashboard = () => {
 
@@ -15,7 +16,7 @@ const Dashboard = () => {
         link: '',
         tags: ''
     })
-
+    const [questions, setQuestions] = useState(null)
     const createQuestion = e => {
         e.preventDefault()
         console.log(input)
@@ -43,9 +44,29 @@ const Dashboard = () => {
                     link: '',
                     tags: ''
                 })
+
+                getQuestions()
             })
             .catch(err => console.log(err))
     }
+
+    const getQuestions = e => {
+        fetch(`${process.env.REACT_APP_HOST}ques/get_questions/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) setQuestions(data.data)
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        getQuestions()
+    }, [])
 
     if (!user) return <Navigate to='/' />
 
@@ -78,6 +99,23 @@ const Dashboard = () => {
                             <Button variant="contained" color='success' type='submit'>Create</Button>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div className='mt-4 px-8'>
+                <h1 className='text-md font-bold'>Your Questions {questions && `(${questions.length})`}</h1>
+                {console.log(questions)}
+                <div className='flex justify-around items-center flex-wrap'>
+                    {questions && questions.map((question, index) => {
+                        return (
+                            <Card
+                                key={index}
+                                title={question.title}
+                                description={question.description}
+                                tags={question.tags}
+                                count={question.questions.length}
+                            />
+                        )
+                    })}
                 </div>
             </div>
         </div>

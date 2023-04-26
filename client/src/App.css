@@ -3,3 +3,44 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.exam-card-width {
+  width: 400px;
+}
+
+.student-exam-card-btn {
+  padding: 3px 6px;
+  font-size: 12px;
+  background-color: rgba(50, 190, 218, 0.808);
+  border: 2px solid rgb(83, 189, 255);
+  border-radius: 5px;
+  color: white;
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  font: bold;
+}
+
+@media screen and (max-width: 1072px) {
+  .exam-card-width {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 706px) {
+  .exam-card-width {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 473px) {
+  .student-card-width {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .dashboard-width {
+    width: 100%;
+  }
+}
